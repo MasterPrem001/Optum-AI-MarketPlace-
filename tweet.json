@@ -1,0 +1,30 @@
+{
+    "name": "TariffTrigger AI",
+    "description": "TariffTrigger AI is an autonomous on-chain trading agent that monitors tariff-related tweets in real time and instantly swaps USDC to MON (or ETH) via smart contracts when predefined risk conditions are triggered.",
+    "author": "Prem Dubay",
+    "version": "1.0.0",
+    "tags": [
+        "DeFi",
+        "Twitter",
+        "Real-time",
+        "Trading",
+        "Agentic"
+    ],
+    "image": "ipfs://bafkreidrrsgyzbjfk3rkb4w7sbev7wjo2zxbkinurtprzlgr725isjol3e",
+    "strategy_logic": {
+        "trigger": "Trump Tweet containing 'Tariff' or 'Trade'",
+        "condition": "Sentiment: Protective/Aggressive",
+        "action": "Swap USDC to MON",
+        "raw_prompt": "IF tariff increases by 10% THEN sell USDC for MON"
+    },
+    "attributes": [
+        {
+            "trait_type": "Risk Level",
+            "value": "High"
+        },
+        {
+            "trait_type": "Frequency",
+            "value": "Event-Driven"
+        }
+    ]
+}
