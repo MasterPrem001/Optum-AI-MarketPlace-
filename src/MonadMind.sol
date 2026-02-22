@@ -24,26 +24,17 @@ contract MonadMind is ReentrancyGuard {
     uint256 public nextStrategyId = 1;
     mapping(uint256 => Strategy) public strategies;
 
-    // ------------------------------------------------------------------------
-    // Vault: only followers' deposits are managed by the strategy
-    // ------------------------------------------------------------------------
 
     /// @notice user => strategyId => MON deposited (only these users can have funds used by agent trades)
     mapping(address => mapping(uint256 => uint256)) public deposits;
     mapping(uint256 => uint256) public totalDeposits;
 
-    // ------------------------------------------------------------------------
-    // Agent & executor
-    // ------------------------------------------------------------------------
 
     address public owner;
     /// @notice Off-chain AI agent; only this address can trigger trades for followers and read secretLogicHash.
     address public offChainAgent;
     ISwapExecutor public swapExecutor;
 
-    // ------------------------------------------------------------------------
-    // Events
-    // ------------------------------------------------------------------------
 
     event StrategyRegistered(uint256 indexed id, address indexed creator, string name, string bio);
     event Followed(uint256 indexed strategyId, address indexed user, uint256 amount);
@@ -70,9 +61,7 @@ contract MonadMind is ReentrancyGuard {
         }
     }
 
-    // ------------------------------------------------------------------------
-    // Registry
-    // ------------------------------------------------------------------------
+
 
     /// @notice Register a strategy with public (name, bio) and secret (IPFS CID) metadata.
     function registerStrategy(string calldata _name, string calldata _bio, string calldata _secretLogicHash)
@@ -117,9 +106,7 @@ contract MonadMind is ReentrancyGuard {
         emit ExecutorUpdated(previous, _executor);
     }
 
-    // ------------------------------------------------------------------------
-    // Vault: follow (deposit MON) and withdraw
-    // ------------------------------------------------------------------------
+   
 
     /// @notice Follow a strategy by depositing MON. Only these users have funds that can be used by the strategy's agent.
     function follow(uint256 _strategyId) external payable {
@@ -146,10 +133,6 @@ contract MonadMind is ReentrancyGuard {
         require(ok, "MonadMind: transfer failed");
         emit Withdrawn(_strategyId, msg.sender, _amount);
     }
-
-    // ------------------------------------------------------------------------
-    // Agent: batch execution for multiple followers (gas-efficient)
-    // ------------------------------------------------------------------------
 
     /// @notice Trigger swaps for multiple followers in one tx. Only offChainAgent. Funds are only taken from users who have followed (deposited).
     function triggerAgentTrade(
@@ -183,9 +166,6 @@ contract MonadMind is ReentrancyGuard {
         emit AgentTradeTriggered(_strategyId, followers, amountsInWei, tokenOut);
     }
 
-    // ------------------------------------------------------------------------
-    // Views
-    // ------------------------------------------------------------------------
 
     function getStrategy(uint256 _strategyId)
         external
