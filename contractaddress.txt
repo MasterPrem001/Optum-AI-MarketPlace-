@@ -1,0 +1,3 @@
+MonadMind = 0x826d3574Fae8cb3F442fb0Cd297ee9F69f2ccF23
+swap executor = 0xD45AAEd7D79f38d23fB494f9396Ad8885B0a774B
+deployed in sepolia testnet
