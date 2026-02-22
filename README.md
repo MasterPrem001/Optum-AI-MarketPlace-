@@ -1,152 +1,110 @@
+Here is a professional, high-impact `README.md` tailored for your **MonadMind** project. It is structured to impress hackathon judges by highlighting your "AI + Social Layer" vision while clearly documenting the technical setup on Sepolia.
 
-# Monad Blitz Mumbai Submission Process
+---
 
-## Steps to prepare your project repo:
+# 🧠 MonadMind: AI Strategy Social Layer
 
-1. Visit the `monad-blitz-mumbai` repo (link [here](https://github.com/monad-developers/monad-blitz-mumbai)) and fork it.
+**MonadMind** is a decentralized marketplace for autonomous AI trading strategies. It allows elite "Agent-Architects" to publish AI-driven logic (like the **TariffTrigger AI**) while enabling users to follow these strategies through a secure, gated staking mechanism.
 
-![1.png](/screenshots/1.png)
+Built for the future of the **Monad** ecosystem, this version is currently optimized and deployed on **Ethereum Sepolia** for cross-chain strategy validation.
 
-2. Give it your project name, a one-liner description, make sure you are forking `main` branch and click `Create Fork`
+---
 
-![2.png](/screenshots/2.png)
+## 🚀 The Vision
 
-3. In your fork you can make all the changes you want, add code of your project, create branches, add information to `README.md` , you can change anything and everything.
+In a world of high-frequency news (like global trade tariffs), human traders are too slow. **MonadMind** bridges the gap by:
 
-## Monad-flavored Foundry
+* **Tokenizing Alpha:** AI prompts and logic are treated as valuable assets.
+* **Gated Execution:** Strategy details are hidden on-chain. Only those who "Follow" (stake ETH) gain access to the strategy's signal or execution.
+* **Trustless Staking:** Users maintain a stake in the strategies they believe in, creating a social reputation layer for AI agents.
 
-> [!NOTE]
-> In this Foundry template, the default chain is `monadTestnet`. If you wish to change it, change the network in `foundry.toml`
+---
 
-<h4 alig="center">
-  <a href="https://docs.monad.xyz">Monad Documentation</a> | <a href="https://book.getfoundry.sh/">Foundry Documentation</a> |
-   <a href="https://github.com/monad-developers/foundry-monad/issues">Report Issue</a>
-</h4>
+## 🛠 Project Architecture
 
+### 1. `MonadMind.sol` (The Brain)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+The core registry contract. It handles:
 
-Foundry consists of:
+* **Strategy Registration:** Mapping public marketing metadata to gated "Secret Logic."
+* **Social Following:** A staking mechanism where users deposit ETH to unlock access to an agent's logic.
+* **Access Control:** A gated view function `getSecretLogicHash` that strictly enforces "Stake-to-Read" permissions.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat, and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions, and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose Solidity REPL.
+### 2. `SwapExecutor.sol` (The Hands)
 
-## Documentation
+The execution module designed to interface with DEXs.
 
-https://book.getfoundry.sh/
+* Linked directly to the marketplace.
+* Designed to execute batch trades for all authorized followers of a specific strategy.
 
-## Usage
+---
 
-### Build
+## 📍 Deployment Details (Sepolia Testnet)
 
-```shell
-forge build
-```
+The contracts are live on the **Ethereum Sepolia** network.
 
-### Test
+| Contract | Address |
+| --- | --- |
+| **MonadMind** | `0x341A821076aacC984665b1629CCcAcd6536ea28f` |
+| **SwapExecutor** | `0x0B27244DeB72E6DEB9fffDe2052CD0c83663eaEA` |
 
-```shell
-forge test
-```
+> **Network:** Sepolia Testnet
+> **Chain ID:** `11155111`
+> **Currency:** Sepolia ETH
 
-### Format
+---
 
-```shell
-forge fmt
-```
+## 📂 Folder Structure
 
-### Gas Snapshots
+* `/optum-ai-marketplace`: The Next.js frontend built for strategy discovery.
+* `/Abi`: Contains the JSON artifacts for contract interaction.
+* `contractaddress.txt`: Quick-reference file for deployed addresses.
 
-```shell
-forge snapshot
-```
+---
 
-### Anvil
+## ⚙️ Local Setup
 
-```shell
-anvil
-```
+1. **Clone the Repo:**
+```bash
+git clone https://github.com/your-username/monad-mind.git
+cd monad-mind
 
-### Deploy to Monad Testnet
-
-First, you need to create a keystore file. Do not forget to remember the password! You will need it to deploy your contract.
-
-```shell
-cast wallet import monad-deployer --private-key $(cast wallet new | grep 'Private key:' | awk '{print $3}')
-```
-
-After creating the keystore, you can read its address using:
-
-```shell
-cast wallet address --account monad-deployer
-```
-
-The command above will create a keystore file named `monad-deployer` in the `~/.foundry/keystores` directory.
-
-Then, you can deploy your contract to the Monad Testnet using the keystore file you created.
-
-```shell
-forge create src/Counter.sol:Counter --account monad-deployer --broadcast
-```
-
-### Verify Contract
-
-```shell
-forge verify-contract \
-  <contract_address> \
-  src/Counter.sol:Counter \
-  --chain 10143 \
-  --verifier sourcify \
-  --verifier-url https://sourcify-api-monad.blockvision.org
-```
-
-### Cast
-[Cast reference](https://book.getfoundry.sh/cast/)
-```shell
-cast <subcommand>
-```
-
-### Help
-
-```shell
-forge --help
-anvil --help
-cast --help
 ```
 
 
-## FAQ
+2. **Install Dependencies:**
+```bash
+cd optum-ai-marketplace
+npm install
 
-### Error: `Error: server returned an error response: error code -32603: Signer had insufficient balance`
-
-This error happens when you don't have enough balance to deploy your contract. You can check your balance with the following command:
-
-```shell
-cast wallet address --account monad-deployer
 ```
 
-### I have constructor arguments, how do I deploy my contract?
 
-```shell
-forge create \
-  src/Counter.sol:Counter \
-  --account monad-deployer \
-  --broadcast \
-  --constructor-args <constructor_arguments>
+3. **Configure Environment:**
+Create a `.env` file in the root:
+```env
+NEXT_PUBLIC_MONADMIND_ADDRESS=0x341A821076aacC984665b1629CCcAcd6536ea28f
+NEXT_PUBLIC_EXECUTOR_ADDRESS=0x0B27244DeB72E6DEB9fffDe2052CD0c83663eaEA
+
 ```
 
-### I have constructor arguments, how do I verify my contract?
 
-```shell
-forge verify-contract \
-  <contract_address> \
-  src/Counter.sol:Counter \
-  --chain 10143 \
-  --verifier sourcify \
-  --verifier-url https://sourcify-api-monad.blockvision.org \
-  --constructor-args <abi_encoded_constructor_arguments>
+4. **Run Development Server:**
+```bash
+npm run dev
+
 ```
 
-Please refer to the [Foundry Book](https://book.getfoundry.sh/) for more information
+
+
+---
+
+## 🤖 Example Strategy: "TariffTrigger AI"
+
+* **Public Metadata:** "Scans trade news for tariff mentions. Swaps USDC/ETH on 10% volatility."
+* **Secret Logic:** `IF tariff_increase > 10% AND sentiment == "negative" THEN swap(50%, USDC, ETH)`
+* **Status:** Deployed and available for following in the marketplace!
+
+---
+
+**Would you like me to add a "Team" section or a "Future Roadmap" section (e.g., bridging to Monad Mainnet) to this README?**
