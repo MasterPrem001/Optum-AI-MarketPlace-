@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {ISwapExecutor} from "./ISwapExecutor.sol";
 
-/// @title Minimal Uniswap V2 Router interface for hackathon demo
+
 interface IUniswapV2Router02 {
     function swapExactETHForTokens(
         uint256 amountOutMin,
@@ -14,8 +14,7 @@ interface IUniswapV2Router02 {
     ) external payable returns (uint256[] memory amounts);
 }
 
-/// @title SwapExecutor
-/// @notice Execution engine for MonadMind: performs token swaps. Marketplace-aware (only accepts calls from MonadMind).
+
 contract SwapExecutor is ReentrancyGuard, ISwapExecutor {
     address public marketplace;
     address public owner;
@@ -44,7 +43,6 @@ contract SwapExecutor is ReentrancyGuard, ISwapExecutor {
         _;
     }
 
-    /// @param _marketplace MonadMind address; can be address(0) and set later via setMarketplace (e.g. deploy Executor first, then Marketplace).
     constructor(address _marketplace) {
         marketplace = _marketplace;
         owner = msg.sender;
@@ -68,10 +66,10 @@ contract SwapExecutor is ReentrancyGuard, ISwapExecutor {
         }
         require(msg.value == totalAmount, "SwapExecutor: value mismatch");
 
-        // EFFECTS: emit batch event
+
         emit BatchExecuted(marketplace, strategyId, followers, amountsInWei, tokenOut);
 
-        // INTERACTIONS: mock swap per follower (Uniswap V2 interface for demo)
+      
         if (address(router) != address(0)) {
             address[] memory path = new address[](2);
             path[0] = address(0);
@@ -96,7 +94,7 @@ contract SwapExecutor is ReentrancyGuard, ISwapExecutor {
         }
     }
 
-    /// @notice Set the MonadMind marketplace (e.g. after deployment). Owner only.
+  
     function setMarketplace(address _marketplace) external onlyOwner {
         require(_marketplace != address(0), "SwapExecutor: zero address");
         address old = marketplace;
@@ -104,13 +102,11 @@ contract SwapExecutor is ReentrancyGuard, ISwapExecutor {
         emit MarketplaceUpdated(old, _marketplace);
     }
 
-    /// @notice Set Uniswap V2 router. Zero address = mock-only mode.
     function setRouter(address _router) external onlyOwner {
         address old = address(router);
         router = IUniswapV2Router02(_router);
         emit RouterUpdated(old, _router);
     }
 
-    /// @notice Accept MON from marketplace when it forwards funds for swaps (optional).
     receive() external payable {}
 }
